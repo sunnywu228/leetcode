@@ -1,4 +1,4 @@
-package leetcode;
+package problems.src.leetcode;
 
 /**
  * Given a binary tree
@@ -33,4 +33,34 @@ package leetcode;
  * Time: 5:31 PM
  */
 public class PopulatingNextRightPointersinEachNode {
+    public void connect(TreeLinkNode root) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if (root == null) return;
+        TreeLinkNode cur = root;
+        cur.next = null;
+
+        while (cur != null) {
+            TreeLinkNode node = cur;
+            while (node != null) {
+                if (node.left != null) {
+                    node.left.next = node.right;
+                } else break;
+
+                if (node.right != null && node.next != null) {
+                    node.right.next = node.next.left;
+                } else {
+                    node.right.next = null;
+                }
+                node = node.next;
+            }
+            cur = cur.left;
+        }
+    }
+}
+
+class TreeLinkNode {
+    int val;
+    TreeLinkNode left, right, next;
+    TreeLinkNode(int x) { val = x; }
 }

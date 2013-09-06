@@ -1,4 +1,4 @@
-package leetcode;
+package problems.src.leetcode;
 
 /**
  * Follow up for problem "Populating Next Right Pointers in Each Node".
@@ -24,4 +24,64 @@ package leetcode;
  * Time: 5:31 PM
  */
 public class PopulatingNextRightPointersinEachNodeII {
+    public void connect(TreeLinkNode root) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if (root == null) return;
+
+        TreeLinkNode cur = root;
+        cur.next = null;
+        while (cur != null) {
+            TreeLinkNode node = cur;
+            TreeLinkNode tmp = null;
+            while (node != null) {
+                if (node.left != null && node.right != null) {
+                    node.left.next = node.right;
+                    if (tmp != null) tmp.next = node.left;
+                    tmp = node.right;
+                } else if (node.left != null) {
+                    if (tmp != null) tmp.next = node.left;
+                    tmp = node.left;
+                } else if (node.right != null) {
+                    if (tmp != null) tmp.next = node.right;
+                    tmp = node.right;
+                }
+
+                node = node.next;
+            }
+            if (tmp != null) tmp.next = null;
+            node = cur;
+            while (node != null) {
+                cur = (node.left != null) ? node.left : node.right;
+                if (cur != null) break;
+                node = node.next;
+            }
+
+        }
+    }
+
+    public void connect_method2 (TreeLinkNode root) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if (root == null) return;
+
+        TreeLinkNode cur = root;
+        while (cur != null) {
+            TreeLinkNode nextHead = null;
+            TreeLinkNode pre = null;
+
+            for (; cur != null; cur = cur.next) {
+                if (nextHead == null) nextHead = (cur.left != null) ? cur.left : cur.right;
+                if (cur.left != null) {
+                    if (pre != null) pre.next = cur.left;
+                    pre = cur.left;
+                }
+                if (cur.right != null) {
+                    if (pre != null) pre.next = cur.right;
+                    pre = cur.right;
+                }
+            }
+            cur = nextHead;
+        }
+    }
 }
